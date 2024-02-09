@@ -7,7 +7,7 @@ public class Pizzaria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_PIZZARIA")
-    @SequenceGenerator( name = "SQ_PIZZARIA")
+    @SequenceGenerator(name = "SQ_PIZZARIA")
     private Long id;
 
     private String nome;
