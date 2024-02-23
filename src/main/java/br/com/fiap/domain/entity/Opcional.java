@@ -12,7 +12,6 @@ import lombok.*;
 @Builder
 public class Opcional {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SQ_OPCIONAL")
     @SequenceGenerator(

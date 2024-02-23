@@ -10,51 +10,70 @@ import jakarta.persistence.Persistence;
 
 import javax.swing.*;
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("fiap");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "fiap" );
         EntityManager manager = factory.createEntityManager();
 
-        salvar(manager);
+        salvar( manager );
 
-        Opcional borda = new Opcional(null, "Borda de Catupiri", 19.99);
-
-        Opcional cocaCola = Opcional.builder().id(null).nome("Coca Cola").preco(19.99).build();
-
-        manager.getTransaction().begin();
-        manager.persist(borda);
-        manager.persist(cocaCola);
-        manager.getTransaction().commit();
-
-
-        Pizzaria pizzaria = manager.find(Pizzaria.class, 1);
-
-        JOptionPane.showMessageDialog(null, pizzaria);
-
+        Pizzaria pizzaria = manager.find( Pizzaria.class, 1 );
+        JOptionPane.showMessageDialog( null, pizzaria );
         manager.close();
         factory.close();
 
     }
 
     private static void salvar(EntityManager manager) {
-        Pizzaria dominus = new Pizzaria();
-        dominus.setId(null).setNome("Dominus");
 
-        Sabor frangoComCatupiri = new Sabor(null, "Frango com Catupiri", "Deliciosa pizza de frango com o autentico Catupiri");
 
-        Sabor caipira = new Sabor(null, "Caipira", "Deliciosa caipira com milho macio");
+        Pizzaria dominus = Pizzaria.builder().nome( "Dominus" ).build();
 
-        var pizzaDeFrangoCatu = new Produto(null, "Pizza", BigDecimal.valueOf(59.98), frangoComCatupiri);
+
+        Sabor frangoComCatupiri = Sabor.builder().nome( "Frango com Catupiri" ).descricao( "Deliciosa pizza de frango com o autentico Catupiri" ).build();
+
+
+        Sabor caipira = Sabor.builder().nome( "Caipira" ).descricao( "Delicioso sabor da fazenda. O milho muito macio" ).build();
+
+
+        var opcionais = new LinkedHashSet<Opcional>();
+
+        var bordaDeCatupiri = Opcional.builder()
+                .nome( "Borda de Catupiri" )
+                .preco( 9.99 )
+                .build();
+
+        var cocaCola = Opcional.builder()
+                .nome( "Coca de 2L" )
+                .preco( 19.99 )
+                .build();
+
+        var tortaDeLimao = Opcional.builder()
+                .nome( "Torta de Limão" )
+                .preco( 6.99 )
+                .build();
+
+        opcionais.add( bordaDeCatupiri );
+        opcionais.add( cocaCola );
+        opcionais.add( tortaDeLimao );
+
+        var pizzaDeFrangoCatu = Produto.builder()
+                .nome( "Pizza" )
+                .preco( BigDecimal.valueOf( 59.99 ) )
+                .sabor( frangoComCatupiri )
+                .opcionais( opcionais )
+                .build();
 
 
         manager.getTransaction().begin();
-        manager.persist(frangoComCatupiri);
-        manager.persist(caipira);   //sql INSERT INTO
-        manager.persist(dominus);
-        manager.persist(pizzaDeFrangoCatu);
+        manager.persist( frangoComCatupiri );
+        manager.persist( caipira );   //sql INSERT INTO
+        manager.persist( dominus );
+        manager.persist( pizzaDeFrangoCatu );
         manager.getTransaction().commit();
     }
 }

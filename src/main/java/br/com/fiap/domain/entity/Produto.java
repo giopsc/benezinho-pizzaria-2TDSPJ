@@ -1,11 +1,22 @@
 package br.com.fiap.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_PRODUTO")
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Produto {
 
     @Id
@@ -18,6 +29,7 @@ public class Produto {
     )
     @Column(name = "ID_PRODUTO")
     private Long id;
+
 
     @Column(name = "NM_PRODUTO")
     private String nome;
@@ -33,61 +45,24 @@ public class Produto {
     )
     private Sabor sabor;
 
+    @ManyToMany
+    @JoinTable(
+            name = "TB_OPCIONAL_PRODUTO",
+            joinColumns = {
+                    @JoinColumn(
+                            name = "PRODUTO",
+                            referencedColumnName = "ID_PRODUTO",
+                            foreignKey = @ForeignKey(name = "FK_PRODUTO_OPCIONAL")
+                    )
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "OPCIONAL",
+                            referencedColumnName = "ID_OPCIONAL",
+                            foreignKey = @ForeignKey(name = "FK_OPCIONAL_PRODUTO")
+                    )
+            }
+    )
+    private Set<Opcional> opcionais = new LinkedHashSet<>();
 
-    public Produto() {
-    }
-
-    public Produto(Long id, String nome, BigDecimal preco, Sabor sabor) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.sabor = sabor;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Produto setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Produto setNome(String nome) {
-        this.nome = nome;
-        return this;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public Produto setPreco(BigDecimal preco) {
-        this.preco = preco;
-        return this;
-    }
-
-    public Sabor getSabor() {
-        return sabor;
-    }
-
-    public Produto setSabor(Sabor sabor) {
-        this.sabor = sabor;
-        return this;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", preco=" + preco +
-                ", sabor=" + sabor +
-                '}';
-    }
 }

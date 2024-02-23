@@ -1,9 +1,17 @@
 package br.com.fiap.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TB_SABOR")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Sabor {
 
     @Id
@@ -18,49 +26,5 @@ public class Sabor {
     @Column(name = "DS_SABOR")
     private String descricao;
 
-    public Sabor() {
-    }
 
-    public Sabor(Long id, String nome, String descricao) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Sabor setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public Sabor setNome(String nome) {
-        this.nome = nome;
-        return this;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public Sabor setDescricao(String descricao) {
-        this.descricao = descricao;
-        return this;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Sabor{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                '}';
-    }
 }
