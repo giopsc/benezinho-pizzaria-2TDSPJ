@@ -87,7 +87,6 @@ public class Main {
 
         Pizzaria dominus = Pizzaria.builder().nome( "Dominus" ).cardapio( cardapio ).build();
 
-
         manager.getTransaction().begin();
         manager.persist( dominus );
         manager.getTransaction().commit();
