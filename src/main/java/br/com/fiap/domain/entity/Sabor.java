@@ -1,9 +1,18 @@
 package br.com.fiap.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "TB_SABOR")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Sabor {
 
     @Id
@@ -17,15 +26,6 @@ public class Sabor {
 
     @Column(name = "DS_SABOR")
     private String descricao;
-
-    public Sabor() {
-    }
-
-    public Sabor(Long id, String nome, String descricao) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-    }
 
     public Long getId() {
         return id;

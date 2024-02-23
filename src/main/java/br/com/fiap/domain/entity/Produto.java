@@ -1,11 +1,21 @@
 package br.com.fiap.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_PRODUTO")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Produto {
 
     @Id
@@ -25,7 +35,7 @@ public class Produto {
     @Column(name = "VL_PRODUTO")
     private BigDecimal preco;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(
             name = "SABOR_ID",
             referencedColumnName = "ID_SABOR",
@@ -33,16 +43,26 @@ public class Produto {
     )
     private Sabor sabor;
 
+    @ManyToMany
+    @JoinTable(
+            name = "TB_OPCIONAL_PRODUTO",
+            joinColumns = {
+                    @JoinColumn(
+                            name = "produto",
+                            referencedColumnName = "ID_PRODUTO",
+                            foreignKey = @ForeignKey(name = "FK_PRODUTO_OPCIONAL")
+                    )
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(
+                            name = "OPCIONAL",
+                            referencedColumnName = "ID_OPCIONAL",
+                            foreignKey = @ForeignKey(name = "FK_OPCIONAL_PRODUTO")
+                    )
+            }
+    )
+    private Set<Opcional> opcionais = new LinkedHashSet<>();
 
-    public Produto() {
-    }
-
-    public Produto(Long id, String nome, BigDecimal preco, Sabor sabor) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.sabor = sabor;
-    }
 
     public Long getId() {
         return id;
