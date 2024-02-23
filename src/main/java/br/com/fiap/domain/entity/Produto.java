@@ -37,7 +37,7 @@ public class Produto {
     @Column(name = "VL_PRODUTO")
     private BigDecimal preco;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(
             name = "SABOR_ID",
             referencedColumnName = "ID_SABOR",
@@ -45,7 +45,7 @@ public class Produto {
     )
     private Sabor sabor;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "TB_OPCIONAL_PRODUTO",
             joinColumns = {

@@ -8,21 +8,27 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import javax.swing.*;
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory( "fiap" );
+        //Se o dia for sexta-feira -> "maria-db"
+        var dia = LocalDate.now().getDayOfWeek().equals( DayOfWeek.FRIDAY ) ? "maria-db" : "fiap";
+
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory( dia );
         EntityManager manager = factory.createEntityManager();
 
         salvar( manager );
 
         Pizzaria pizzaria = manager.find( Pizzaria.class, 1 );
-        JOptionPane.showMessageDialog( null, pizzaria );
+
+        System.out.println( pizzaria );
+
         manager.close();
         factory.close();
 
@@ -69,11 +75,32 @@ public class Main {
                 .build();
 
 
+        var pizzaCipira = Produto.builder()
+                .nome( "Pizza" )
+                .preco( BigDecimal.valueOf( 49.99 ) )
+                .sabor( caipira )
+                .opcionais( opcionais )
+                .build();
+
+
         manager.getTransaction().begin();
+        manager.persist( dominus );
+
+
+
+
+        manager.persist( bordaDeCatupiri );
+        manager.persist( cocaCola );
+        manager.persist( tortaDeLimao );
+
         manager.persist( frangoComCatupiri );
         manager.persist( caipira );   //sql INSERT INTO
-        manager.persist( dominus );
+
+
+
         manager.persist( pizzaDeFrangoCatu );
+        manager.persist( pizzaCipira );
+
         manager.getTransaction().commit();
     }
 }
