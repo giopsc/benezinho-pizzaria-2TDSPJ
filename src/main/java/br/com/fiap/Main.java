@@ -36,13 +36,17 @@ public class Main {
     private static void salvar(EntityManager manager) {
 
 
-        Pizzaria dominus = Pizzaria.builder().nome( "Dominus" ).build();
+        Sabor frangoComCatupiri = Sabor.builder()
+
+                .nome( "Frango com Catupiri" )
+                .descricao( "Deliciosa pizza de frango com o autentico Catupiri" )
+                .build();
 
 
-        Sabor frangoComCatupiri = Sabor.builder().nome( "Frango com Catupiri" ).descricao( "Deliciosa pizza de frango com o autentico Catupiri" ).build();
-
-
-        Sabor caipira = Sabor.builder().nome( "Caipira" ).descricao( "Delicioso sabor da fazenda. O milho muito macio" ).build();
+        Sabor caipira = Sabor.builder()
+                .nome( "Caipira" )
+                .descricao( "Delicioso sabor da fazenda. O milho muito macio" )
+                .build();
 
 
         var opcionais = new LinkedHashSet<Opcional>();
@@ -80,19 +84,29 @@ public class Main {
                 .opcionais( opcionais )
                 .build();
 
+        var cardapio = new LinkedHashSet<Produto>();
+
+        cardapio.add( pizzaCaipira );
+        cardapio.add( pizzaDeFrangoCatu );
+
+        Pizzaria dominus = Pizzaria.builder()
+                .nome( "Dominus" )
+                .cardapio ( cardapio )
+                .build();
+
 
         manager.getTransaction().begin();
         manager.persist( dominus );
 
-        manager.persist( bordaDeCatupiri );
-        manager.persist( cocaCola );   //sql INSERT INTO
-        manager.persist( tortaDeLimao );
-
-        manager.persist( frangoComCatupiri );
-        manager.persist( caipira );
-
-        manager.persist( pizzaDeFrangoCatu );
-        manager.persist( pizzaCaipira );
+//        manager.persist( bordaDeCatupiri );
+//        manager.persist( cocaCola );   //sql INSERT INTO
+//        manager.persist( tortaDeLimao );
+//
+//        manager.persist( frangoComCatupiri );
+//        manager.persist( caipira );
+//
+//        manager.persist( pizzaDeFrangoCatu );
+//        manager.persist( pizzaCaipira );
 
         manager.getTransaction().commit();
     }
