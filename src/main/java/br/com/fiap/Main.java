@@ -10,6 +10,7 @@ import jakarta.persistence.Persistence;
 import org.hibernate.internal.build.AllowSysOut;
 
 import javax.swing.*;
+
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //Se o dia for sexta-feira -> "maria-db"
         var dia = LocalDate.now().getDayOfWeek().equals( DayOfWeek.FRIDAY ) ? "maria-db" : "fiap";
 
         EntityManagerFactory factory = Persistence.createEntityManagerFactory( dia );
@@ -28,6 +30,9 @@ public class Main {
 
         Pizzaria pizzaria = manager.find( Pizzaria.class, 1 );
         System.out.println( pizzaria );
+
+        System.out.println( pizzaria );
+
         manager.close();
         factory.close();
 
@@ -47,7 +52,6 @@ public class Main {
                 .nome( "Caipira" )
                 .descricao( "Delicioso sabor da fazenda. O milho muito macio" )
                 .build();
-
 
         var opcionais = new LinkedHashSet<Opcional>();
 
@@ -108,6 +112,12 @@ public class Main {
 //        manager.persist( pizzaDeFrangoCatu );
 //        manager.persist( pizzaCaipira );
 
+
+        cardapio.add( pizzaCaipira );
+        cardapio.add( pizzaDeFrangoCatu );
+
+        manager.getTransaction().begin();
+        manager.persist( dominus );
         manager.getTransaction().commit();
     }
 }

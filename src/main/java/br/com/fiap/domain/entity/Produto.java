@@ -43,7 +43,7 @@ public class Produto {
     )
     private Sabor sabor;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "TB_OPCIONAL_PRODUTO",
             joinColumns = {
@@ -62,7 +62,6 @@ public class Produto {
             }
     )
     private Set<Opcional> opcionais = new LinkedHashSet<>();
-
 
     public Long getId() {
         return id;
